@@ -20,7 +20,8 @@ function App() {
     // ...
 
     useEffect(() => {
-      fetch(import.meta.env.VITE_DB_DEPLOY)
+      fetch(`${import.meta.env.VITE_DB_DEPLOY}/?${queryParams}`) // Modo producción
+
         .then((response) => response.json())
         .then((data) => {
           setLibros(data);
