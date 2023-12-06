@@ -1,15 +1,26 @@
-import React, { useState } from 'react';
-import { Card, CardHeader, CardMedia, CardContent, CardActions, IconButton, Typography, Grid } from '@mui/material';
-import { AddShoppingCart, ExpandMore as ExpandMoreIcon } from '@mui/icons-material';
+import React, { useState, useContext } from 'react';
+import { Card, CardHeader, CardMedia, CardContent, CardActions, IconButton, Typography, Grid, Tooltip } from '@mui/material';
+import { AddShoppingCart, ExpandMore as ExpandMoreIcon, RemoveShoppingCart } from '@mui/icons-material';
 import accounting from 'accounting';
 import Collapse from '@mui/material/Collapse';
+import { CarritoContext } from '../providers/carritoContext.jsx';
 
 const Detail = (props) => {
-  const { titulo, autor, precio_$, url_imagen, nro_paginas, peso, fecha_publicacion, ISBN, editorial, idioma, descripcion } = props;
+  const { titulo, autor, precio_$, url_imagen, nro_paginas, peso, fecha_publicacion, ISBN, editorial, idioma, descripcion, id } = props;
   const [expanded, setExpanded] = useState(false);
+  const { carrito, agregarAlCarrito, removerDelCarrito } = useContext(CarritoContext);
+  const estaEnCarrito = carrito.some(item => item.id === id);
 
   const handleExpandClick = () => {
     setExpanded(!expanded);
+  };
+
+  const manejarAgregarAlCarrito = () => {
+    agregarAlCarrito({ id, titulo, precio_$ });
+  };
+
+  const manejarRemoverDelCarrito = () => {
+    removerDelCarrito(id);
   };
 
   return (
@@ -22,19 +33,17 @@ const Detail = (props) => {
               height="400"
               width="700"
               image={url_imagen}
-              alt="Portada"
+              alt="Portada del libro"
             />
           </Grid>
           <Grid item xs={12} sm={6}>
             <CardContent>
-              <Typography variant="body2" color="text.secondary">
-                <CardHeader
-                  title={titulo}
-                  subheader={autor}
-                />
-                <Typography variant='h5' color='textSecondary'>
+              <CardHeader
+                title={titulo}
+                subheader={autor}
+              />
+              <Typography variant='h5' color='textSecondary'>
                 {accounting.formatMoney(precio_$, { precision: 0 })}
-                </Typography>
               </Typography>
               <Typography variant="body2" color="text.secondary">
                 <br />
@@ -52,9 +61,19 @@ const Detail = (props) => {
               </Typography>
             </CardContent>
             <CardActions disableSpacing>
-              <IconButton aria-label="add to Card">
-                <AddShoppingCart fontSize='large' />
-              </IconButton>
+              {estaEnCarrito ? (
+                <Tooltip title="Quitar del carrito">
+                  <IconButton aria-label="remove from cart" onClick={manejarRemoverDelCarrito}>
+                    <RemoveShoppingCart fontSize='large' />
+                  </IconButton>
+                </Tooltip>
+              ) : (
+                <Tooltip title="Agregar al carrito">
+                  <IconButton aria-label="add to cart" onClick={manejarAgregarAlCarrito}>
+                    <AddShoppingCart fontSize='large' />
+                  </IconButton>
+                </Tooltip>
+              )}
               <IconButton
                 onClick={handleExpandClick}
                 aria-expanded={expanded}
@@ -66,16 +85,13 @@ const Detail = (props) => {
           </Grid>
         </Grid>
         <Collapse in={expanded} timeout="auto" unmountOnExit>
-        <CardContent>
-          <Typography paragraph>Argumento:</Typography>
-          <Typography paragraph>
-          </Typography>
-          <Typography paragraph>
-             {descripcion}
-          </Typography>
-         
-        </CardContent>
-      </Collapse>
+          <CardContent>
+            <Typography >Argumento:</Typography>
+            <Typography >
+               {descripcion}
+            </Typography>
+          </CardContent>
+        </Collapse>
       </Card>
     </div>
   );

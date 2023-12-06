@@ -1,6 +1,7 @@
 .container {
     width: 100%; 
-    background-color: #fff; 
+    background-color: lightyellow; 
+    color: black;
     border-bottom: 1px solid #ccc; 
     box-shadow: 0 2px 5px rgba(0,0,0,0.2); 
     z-index: 1000; 
@@ -16,15 +17,18 @@
     border-radius: 5px;
     border: 1px solid #ccc;
     font-size: 16px;
+    background-color: azure;
     color: #393838;
     outline: none;
     transition: border-color 0.3s ease-in-out;
     width: 20%;
     max-width: 600px;
     margin: 5px;
+    
 }
 
 .inputCategoria:focus {
+    background-color: azure;
     border-color: #007bff;
 }
 
@@ -37,6 +41,7 @@
     border-radius: 5px;
     border: 1px solid #ccc;
     font-size: 16px;
+    background-color: azure;
     color: #393838;
     outline: none;
     transition: border-color 0.3s ease-in-out;

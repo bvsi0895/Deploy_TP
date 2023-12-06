@@ -1,20 +1,34 @@
+import React, { useEffect, useState } from 'react';
 import './App.css';
-import { Route, Routes } from 'react-router-dom';
-import { useEffect, useState } from 'react';
+import { Route, Routes, BrowserRouter as Router } from 'react-router-dom';
 import ListadoDeProductos from './components/Listado de Productos/ListadoDeProductos';
 import SearchBar from './components/SearchBar/SearchBar';
 import Detail from './Views/Detail';
 import Navbar from './components/NavBar/NavBar';
 import MensajeSinLibros from './components/Mensaje sin libros/MensajeSinLibros';
 import Filtros from './components/Filtros/Filtros';
+import Login from './Views/Login';
+import RegistroExitoso from './Views/RegistroExitoso';  // Corregir typo en el nombre del archivo
+import { CarritoProvider } from './providers/carritoContext';
+import Footer from './components/Footer/Footer';
 
 function App() {
-  const [libros, setLibros] = useState([]);
   const [librosFiltrados, setLibrosFiltrados] = useState([]);
   const [precioMax, setPrecioMax] = useState(0);
   const [filtroActual, setFiltroActual] = useState({ categoria: '', precio: 100000, ordenamiento: 'precio_desc' });
 
-  // Modificar aplicarFiltro para incluir el ordenamiento
+  useEffect(() => {
+    fetch(`${import.meta.env.VITE_DB_DEPLOY}`) // Modo producción
+      .then((response) => response.json())
+      .then((data) => {
+        setLibrosFiltrados(data);
+        const maxPrecioEncontrado = data.reduce((max, libro) => Math.max(max, libro.precio_$), 0);
+        const precioMaxConIncremento = maxPrecioEncontrado * 1.10;
+        const precioMaxRedondeado = Math.ceil(precioMaxConIncremento / 1000) * 1000;
+        setPrecioMax(precioMaxRedondeado);
+      });
+  }, []);
+
   const aplicarFiltro = () => {
     let queryParams = '';
     if (filtroActual.categoria) {
@@ -28,19 +42,6 @@ function App() {
       .then((data) => setLibrosFiltrados(data))
       .catch((error) => console.error('Error:', error));
   };
-
-  useEffect(() => {
-    fetch(`${import.meta.env.VITE_DB_DEPLOY}`) // Modo producción
-      .then((response) => response.json())
-      .then((data) => {
-        setLibros(data);
-        setLibrosFiltrados(data);
-        const maxPrecioEncontrado = data.reduce((max, libro) => Math.max(max, libro.precio_$), 0);
-        const precioMaxConIncremento = maxPrecioEncontrado * 1.10;
-        const precioMaxRedondeado = Math.ceil(precioMaxConIncremento / 1000) * 1000;
-        setPrecioMax(precioMaxRedondeado);
-      });
-  }, []);
 
   const onPriceChange = (precio) => {
     setFiltroActual((prevState) => ({ ...prevState, precio: precio }));
@@ -57,34 +58,54 @@ function App() {
     aplicarFiltro();
   };
 
+  const onSearchSubmit = (searchTerm) => {
+    fetch(`${import.meta.env.VITE_DB_DEPLOY}/?${encodeURIComponent(searchTerm)}`) // Modo producción
+      .then((response) => response.json())
+      .then((data) => setLibrosFiltrados(data))
+      .catch((error) => console.error('Error al buscar libros:', error));
+  };
+
   useEffect(() => {
-    aplicarFiltro();
+    aplicarFiltro();   // Aplica el filtro cada vez que cambia filtroActual
   }, [filtroActual]);
+
+  const [isContactModalOpen, setContactModalOpen] = useState(false);
+
+  const handleOpenContactModal = () => {
+    setContactModalOpen(true);    
+  };
+
+  const handleCloseContactModal = () => {
+    setContactModalOpen(false);
+  };
 
   return (
     <div>
-      <Navbar />
-      <SearchBar />
-      <Filtros
-        onFilterChange={handleFilterChange}
-        onPriceChange={onPriceChange}
-        onSortChange={onSortChange}
-        precioMax={precioMax}
-      />
+      <CarritoProvider>
+        <Navbar />
+        <Routes>
+          <Route path="/" element={
+            <>
+              <SearchBar onSearchSubmit={onSearchSubmit} />
+              <Filtros
+                onFilterChange={handleFilterChange}
+                onPriceChange={onPriceChange}
+                onSortChange={onSortChange}
+                precioMax={precioMax}
+              />
+              {librosFiltrados.length > 0 ? 
+                <ListadoDeProductos libro={librosFiltrados} /> :
+                <MensajeSinLibros />
+              }
+              <Footer/>
+            </>
+          } />
 
-      <Routes>
-        <Route
-          path={'/'}
-          element={
-            librosFiltrados.length > 0 ? (
-              <ListadoDeProductos libros={librosFiltrados} />
-            ) : (
-              <MensajeSinLibros />
-            )
-          }
-        />
-        <Route path={'/detail/:id'} element={<Detail />} />
-      </Routes>
+          <Route path="/detail/:id" element={<Detail />} />
+          <Route path="/login" element={<Login />} />
+          <Route path="/registroexitoso" element={<RegistroExitoso />} />
+        </Routes>
+      </CarritoProvider>
     </div>
   );
 }

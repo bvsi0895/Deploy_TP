@@ -1,8 +1,8 @@
 import React, { useState, useEffect} from 'react';
-import styles from './Filtros.module.css';
-// import { FormControl, InputLabel, Select, MenuItem, Typography, Slider } from '@material-ui/core';
+import { FormControl, InputLabel, Select, MenuItem, Slider, Typography, Grid } from '@mui/material';
 
 const Filtros = ({ onFilterChange, onPriceChange, onSortChange, precioMax }) => {
+    const [categorias, setCategorias] = useState([]);
     const [categoria, setCategoria] = useState('');
     const [precio, setPrecio] = useState(precioMax || 100);
 
@@ -11,6 +11,14 @@ const Filtros = ({ onFilterChange, onPriceChange, onSortChange, precioMax }) => 
             setPrecio(precioMax);
         }
     }, [precioMax]);
+
+    // Función para cargar las categorías desde el backend
+    useEffect(() => {
+        fetch('http://localhost:3000/categorias')
+            .then(response => response.json())
+            .then(data => setCategorias(data))
+            .catch(error => console.error('Error al cargar categorías:', error));
+    }, []);
 
     const handleCategoriaChange = (e) => {
         const nuevaCategoria = e.target.value;
@@ -34,50 +42,57 @@ const Filtros = ({ onFilterChange, onPriceChange, onSortChange, precioMax }) => 
         }
     };
 
+    const precioSlider = (
+        <Grid item xs={12} sm={4}>
+            <div>
+                <Typography gutterBottom>Ajustar precio</Typography>
+                <Slider
+                    value={precio}
+                    onChange={handlePrecioChange}
+                    min={0}
+                    max={precioMax || 100}
+                    valueLabelDisplay="auto"
+                />
+            </div>
+        </Grid>
+    );
+
     return (
-        <div className={styles.container}>
-            <select
-                name="categoria"
-                className={styles.inputCategoria}
-                value={categoria}
-                onChange={handleCategoriaChange}
-            >
-                <option value="">Selecciona una categoría</option>
-                <option value="Arte">Arte</option>
-                <option value="Computacion y Tecnologia">Computacion y Tecnologia</option>
-                <option value="Ficcion romantica">Ficcion romantica</option>
-                <option value="Economia y Finanzas">Economia y Finanzas</option>
-                <option value="Infantil y Juvenil">Infantil y Juvenil</option>
-                <option value="Historia de America">Historia de America</option>
-                <option value="Divulgacion cientifica">Divulgacion cientifica</option>
-            </select>
-            
-            {/* Control deslizador para el precio */}
-            <label  className={styles.sliderLabel}>
-                Ajustar precio
-            </label>
-            <input
-                type="range"
-                name="precio_$"
-                className={styles.slider}
-                min="0"
-                max={precioMax}
-                value={precio}
-                onChange={handlePrecioChange}
-            />
-            <span className={styles.precioLabel}>${precio}</span>
-            {/* Control para el ordenamiento */}
-            <select
-                name="ordenamiento"
-                className={styles.inputOrdenamiento}
-                onChange={handleSortChange}
-            >
-                <option value="precio_asc">Precio: Menor a Mayor</option>
-                <option value="precio_desc">Precio: Mayor a Menor</option>
-            </select>
-        </div>
+        <Grid container spacing={2} sx={{ marginTop: '10px' }}>
+            <Grid item xs={12} sm={4}>
+                <FormControl fullWidth>
+                    <InputLabel>Categoría</InputLabel>
+                        <Select
+                            value={categoria}
+                            label="Categoría"
+                            onChange={handleCategoriaChange}
+                        >
+                            <MenuItem value="">
+                                <em>Todas las categorías</em>
+                            </MenuItem>
+                            {categorias.map((cat) => (
+                                <MenuItem key={cat.id} value={cat.nombre}>{cat.nombre}</MenuItem>
+                            ))}
+                        </Select>
+                </FormControl>
+            </Grid>
+
+            {precioSlider}
+
+            <Grid item xs={12} sm={4}>
+                <FormControl fullWidth>
+                    <InputLabel>Ordenar por</InputLabel>
+                    <Select
+                        label="Ordenamiento"
+                        onChange={handleSortChange}
+                    >
+                        <MenuItem value="precio_asc">Precio: Menor a Mayor</MenuItem>
+                        <MenuItem value="precio_desc">Precio: Mayor a Menor</MenuItem>
+                    </Select>
+                </FormControl>
+            </Grid>
+        </Grid>
     );
 };
 
 export default Filtros;
-

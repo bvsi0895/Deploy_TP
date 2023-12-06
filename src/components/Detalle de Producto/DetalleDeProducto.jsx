@@ -1,4 +1,3 @@
-import React from 'react'
 import { Link } from 'react-router-dom';
 import { styled } from '@mui/material/styles';
 import Card from '@mui/material/Card';
@@ -10,11 +9,18 @@ import Collapse from '@mui/material/Collapse';
 import IconButton from '@mui/material/IconButton';
 import Typography from '@mui/material/Typography';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
+import RemoveShoppingCartIcon from '@mui/icons-material/RemoveShoppingCart';
 import { AddShoppingCart } from '@mui/icons-material';
 import accounting from 'accounting';
 import { Button, Modal } from '@mui/material';
 import Box from '@mui/material/Box';
 import Detail from './../../Views/Detail.jsx';
+import React, { useState, useContext } from 'react';
+import { CarritoContext } from '../../providers/carritoContext.jsx';
+import Tooltip from '@mui/material/Tooltip';
+
+
+
 
 const ExpandMore = styled((props) => {
   const { expand, ...other } = props;
@@ -42,26 +48,39 @@ const style = {
 };
 
 function DetalleDeProducto(props) {
-  
-  const [open, setOpen] = React.useState(false);
-  const handleOpen = () => {
-    setOpen(true);
-  };
-  const handleClose = () => {
-    setOpen(false);
-  };
+  const { agregarAlCarrito, removerDelCarrito, carrito } = useContext(CarritoContext);
   const { id, titulo, autor, precio_$, url_imagen, nro_paginas, peso, fecha_publicacion, ISBN, editorial, idioma, descripcion } = props;
-    
-    const [expanded, setExpanded] = React.useState(false);
+  const [expanded, setExpanded] = useState(false);
+  const [open, setOpen] = useState(false);
 
+  const estaEnCarrito = carrito.some(item => item.id === id);
+
+  const manejarAgregarAlCarrito = () => {
+    agregarAlCarrito({ id, titulo, precio_$ });
+  };
+
+  const manejarRemoverDelCarrito = () => {
+    removerDelCarrito(id);
+  };
+
+  // Función para manejar la expansión del Collapse
   const handleExpandClick = () => {
     setExpanded(!expanded);
   };
 
+  // Función para abrir el Modal
+  const handleOpen = () => {
+    setOpen(true);
+  };
+
+  // Función para cerrar el Modal
+  const handleClose = () => {
+    setOpen(false);
+  };
+
 
   return (
-    <div>
-   <Card sx={{  maxWidth: 700 }}>
+   <Card sx={{ height: '100%', display: 'flex', flexDirection: 'column' }}>
 
       
       <CardMedia
@@ -91,14 +110,24 @@ function DetalleDeProducto(props) {
            >
              {accounting.formatMoney(precio_$, { precision: 0 })}
             </Typography>
-        <Typography variant="body2" color="text.secondary">
+        <Typography variant="body2" color="text.secondary"> 
        
         </Typography>
       </CardContent>
       <CardActions disableSpacing>
-        <IconButton aria-label="add to Card">
+      {estaEnCarrito ? (
+        <Tooltip title="Quitar del carrito">
+        <IconButton aria-label="remove from cart" onClick={manejarRemoverDelCarrito}>
+          <RemoveShoppingCartIcon />
+        </IconButton>
+        </Tooltip>
+      ) : (
+        <Tooltip title="Agregar al carrito">
+        <IconButton aria-label="add to cart" onClick={manejarAgregarAlCarrito}>
           <AddShoppingCart fontSize='large' />
         </IconButton>
+        </Tooltip>
+      )}
      
 
         <ExpandMore
@@ -141,10 +170,10 @@ function DetalleDeProducto(props) {
       
       <Collapse in={expanded} timeout="auto" unmountOnExit>
         <CardContent>
-          <Typography paragraph>Argumento:</Typography>
-          <Typography paragraph>
+          <Typography>Argumento:</Typography>
+          <Typography>
           </Typography>
-          <Typography paragraph>
+          <Typography>
              {descripcion}
           </Typography>
          
@@ -152,7 +181,6 @@ function DetalleDeProducto(props) {
       </Collapse>
     </Card>
 
-    </div>
   )
 }
 

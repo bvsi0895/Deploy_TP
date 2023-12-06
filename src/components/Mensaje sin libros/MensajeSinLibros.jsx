@@ -1,5 +1,5 @@
 import React from 'react';
-import { Grid, Typography } from '@mui/material/';
+import { Grid, Typography } from '@mui/material';
 import SentimentDissatisfiedIcon from '@mui/icons-material/SentimentDissatisfied';
 
 const MensajeSinLibros = () => {
