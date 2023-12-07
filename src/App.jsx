@@ -8,7 +8,7 @@ import Navbar from './components/NavBar/NavBar';
 import MensajeSinLibros from './components/Mensaje sin libros/MensajeSinLibros';
 import Filtros from './components/Filtros/Filtros';
 import Login from './Views/Login';
-import RegistroExitoso from './Views/RegistroExitoso';  // Corregir typo en el nombre del archivo
+import RegistroExitoso from './Views/RegistroExitoso';  
 import { CarritoProvider } from './providers/carritoContext';
 import Footer from './components/Footer/Footer';
 

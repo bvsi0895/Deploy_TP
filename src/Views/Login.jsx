@@ -67,7 +67,7 @@ const [errorMessage, setErrorMessage] = useState({
     .catch((error) => console.log(error))
   }
     else {
-      fetch('http://localhost:3000/signup', {
+      fetch(`${import.meta.env.VITE_DB_DEPLOY}/signup`), {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
