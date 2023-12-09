@@ -1,8 +1,6 @@
 import React, { useEffect, useState } from 'react';
-import './App.css';
 import { Route, Routes, BrowserRouter as Router } from 'react-router-dom';
 import ListadoDeProductos from './components/Listado de Productos/ListadoDeProductos';
-import SearchBar from './components/SearchBar/SearchBar';
 import Detail from './Views/Detail';
 import Navbar from './components/NavBar/NavBar';
 import MensajeSinLibros from './components/Mensaje sin libros/MensajeSinLibros';
@@ -58,13 +56,7 @@ function App() {
     aplicarFiltro();
   };
 
-  const onSearchSubmit = (searchTerm) => {
-    fetch(`${import.meta.env.VITE_DB_DEPLOY}/?${encodeURIComponent(searchTerm)}`) // Modo producción
-      .then((response) => response.json())
-      .then((data) => setLibrosFiltrados(data))
-      .catch((error) => console.error('Error al buscar libros:', error));
-  };
-
+ 
   useEffect(() => {
     aplicarFiltro();   // Aplica el filtro cada vez que cambia filtroActual
   }, [filtroActual]);
@@ -81,32 +73,33 @@ function App() {
 
   return (
     <div>
-      <CarritoProvider>
+     <CarritoProvider>
         <Navbar />
-        <Routes>
-          <Route path="/" element={
-            <>
-              <SearchBar onSearchSubmit={onSearchSubmit} />
-              <Filtros
-                onFilterChange={handleFilterChange}
-                onPriceChange={onPriceChange}
-                onSortChange={onSortChange}
-                precioMax={precioMax}
-              />
-              {librosFiltrados.length > 0 ? 
-                <ListadoDeProductos libro={librosFiltrados} /> :
-                <MensajeSinLibros />
-              }
-              <Footer/>
-            </>
-          } />
-
-          <Route path="/detail/:id" element={<Detail />} />
-          <Route path="/login" element={<Login />} />
-          <Route path="/registroexitoso" element={<RegistroExitoso />} />
-        </Routes>
+        <div style={{ padding: '100px' }}>
+          <Routes>
+            <Route path="/" element={
+              <>
+                <Filtros
+                  onFilterChange={handleFilterChange}
+                  onPriceChange={onPriceChange}
+                  onSortChange={onSortChange}
+                  precioMax={precioMax}
+                />
+                {librosFiltrados.length > 0 ? 
+                  <ListadoDeProductos libro={librosFiltrados} /> :
+                  <MensajeSinLibros style={{ textAlign: 'center'}} />
+                }
+              </>
+            } />
+            <Route path={'/detail/:id'} element={<Detail/>}/>
+            <Route path='/login' element={<Login/>}></Route>
+            <Route paht={'registroexitoso'} element={<RegistroExitoso/>}></Route>
+               </Routes>
+        </div>
+        <Footer/>    
       </CarritoProvider>
-    </div>
+      
+   </div>
   );
 }
 

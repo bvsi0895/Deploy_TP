@@ -1,4 +1,4 @@
-import React, { useState, useEffect} from 'react';
+import React, { useState, useEffect } from 'react';
 import { FormControl, InputLabel, Select, MenuItem, Slider, Typography, Grid } from '@mui/material';
 
 const Filtros = ({ onFilterChange, onPriceChange, onSortChange, precioMax }) => {
@@ -12,12 +12,22 @@ const Filtros = ({ onFilterChange, onPriceChange, onSortChange, precioMax }) => 
         }
     }, [precioMax]);
 
-    // Función para cargar las categorías desde el backend
     useEffect(() => {
-        fetch(`${import.meta.env.VITE_DB_DEPLOY}/categorias`)
-            .then(response => response.json())
-            .then(data => setCategorias(data))
-            .catch(error => console.error('Error al cargar categorías:', error));
+        // fetch(`${import.meta.env.VITE_DB_DEPLOY}/categorias`)
+        fetch('https://backtp-production.up.railway.app/categorias')
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error(`HTTP error! Status: ${response.status}`);
+                }
+                return response.json();
+            })
+            .then(data => {
+                console.log('Categorías cargadas correctamente:', data);
+                setCategorias(data);
+            })
+            .catch(error => {
+                console.error('Error al cargar categorías:', error);
+            });
     }, []);
 
     const handleCategoriaChange = (e) => {
@@ -62,18 +72,18 @@ const Filtros = ({ onFilterChange, onPriceChange, onSortChange, precioMax }) => 
             <Grid item xs={12} sm={4}>
                 <FormControl fullWidth>
                     <InputLabel>Categoría</InputLabel>
-                        <Select
-                            value={categoria}
-                            label="Categoría"
-                            onChange={handleCategoriaChange}
-                        >
-                            <MenuItem value="">
-                                <em>Todas las categorías</em>
-                            </MenuItem>
-                            {categorias.map((cat) => (
-                                <MenuItem key={cat.id} value={cat.nombre}>{cat.nombre}</MenuItem>
-                            ))}
-                        </Select>
+                    <Select
+                        value={categoria}
+                        label="Categoría"
+                        onChange={handleCategoriaChange}
+                    >
+                        <MenuItem value="">
+                            <em>Todas las categorías</em>
+                        </MenuItem>
+                        {categorias.map((cat) => (
+                            <MenuItem key={cat.id} value={cat.nombre}>{cat.nombre}</MenuItem>
+                        ))}
+                    </Select>
                 </FormControl>
             </Grid>
 

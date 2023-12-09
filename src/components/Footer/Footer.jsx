@@ -45,23 +45,31 @@ const Footer = () => {
   };
 
   return (
-    <Box component="footer" sx={{ bgcolor: 'black', color: 'primary.main', mt: 3, py: 3 }}>
-      <Container maxWidth="lg">
+    <Box component="footer" sx={{ bgcolor: '#2196F3',
+                                  color: 'primary.main', 
+                                  mt: 3, 
+                                  py: 3, 
+                                  flexGrow: 1, 
+                                  boxShadow: '0px 0px 10px 0px rgba(0,0,0,0.5)', 
+                                  width: '100%',
+                                  flexShrink: 0
+                                }}>
+      <Container maxWidth="false">
         <Grid container spacing={3}>
           <Grid item xs={12} sm={6}>
-            <Typography variant="h6" color="inherit" gutterBottom>
-              BookFinder
+            <Typography variant="h6" color="white" gutterBottom>
+              Grupo 2 DWA Henry
             </Typography>
-            <Typography variant="subtitle1" color="inherit">
-              Tu destino para encontrar y comprar libros en línea.
+            <Typography variant="subtitle1" color="white">
+              Edward A. Pereira, Andrea Purrinos, Valentina Paglino, Jorge Conti
             </Typography>
           </Grid>
           <Grid item xs={12} sm={6}>
-            <Typography variant="subtitle1" color="inherit">
+            <Typography variant="subtitle1" color="white">
               ¿Tienes preguntas? Por favor, no dudes en contactarnos.
             </Typography>
-            <Button onClick={handleOpen} color="inherit">
-              Contacto
+            <Button onClick={handleOpen} color="secondary" style={{ color: 'white', display: 'flex', alignItems: 'center'}}>
+              <MailOutlineIcon sx={{ fonrSize: 28, marginRiht: 4 }} /> Contacto
             </Button>
           </Grid>
         </Grid>

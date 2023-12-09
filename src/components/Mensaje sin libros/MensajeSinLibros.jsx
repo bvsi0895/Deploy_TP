@@ -4,7 +4,7 @@ import SentimentDissatisfiedIcon from '@mui/icons-material/SentimentDissatisfied
 
 const MensajeSinLibros = () => {
   return (
-    <Grid container justify="center" alignItems="center" style={{ height: '800px' }}>
+    <Grid container justify="center" alignItems="center" style={{ minHeight: '60vh' }}>
       <Grid item xs={12}>
         <Typography variant="h5" align="center">
           <SentimentDissatisfiedIcon style={{ fontSize: 180, verticalAlign: 'middle' }} /><br/>

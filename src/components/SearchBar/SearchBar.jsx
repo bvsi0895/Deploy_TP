@@ -17,13 +17,21 @@ const Searchbar = ({ onSearchSubmit }) => {
     };
 
     return (
-        <form onSubmit={handleSubmit} style={{ display: 'flex', alignItems: 'center', margin: '70px 0 0 0'  }}>
+        <form onSubmit={handleSubmit} style={{ display: 'flex', alignItems: 'left', margin: '10px 50px 10px 0px'  }}>
             <TextField
                 label="Buscar libro"
                 variant="outlined"
                 value={searchTerm}
                 onChange={handleSearchChange}
-                sx={{ marginRight: '8px', background: 'azure' }}
+                InputLabelProps={{
+                    style: { color: searchTerm ? 'red' : 'gray'}
+                }}
+                sx={{ marginRight: '8px',
+                      background: 'azure',
+                      width: '500px',
+                      height: '50px',
+                      borderRadius: '5px',
+                   }}
             />
             <IconButton type="submit" aria-label="search">
                 <SearchIcon />

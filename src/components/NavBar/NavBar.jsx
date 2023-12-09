@@ -19,6 +19,7 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import TextField from '@mui/material/TextField';
 import Alert from '@mui/material/Alert';
 import CloseIcon from '@mui/icons-material/Close';
+import SearchBar from '../../components/SearchBar/SearchBar';
 import PasarelaDePago from '../Pasarela de pago/PasarelaDePago.jsx';
 import { Link } from 'react-router-dom';
 
@@ -41,6 +42,12 @@ const modalStyle = {
   border: '2px solid #000',
   boxShadow: 24,
   p: 4,
+};
+const onSearchSubmit = (searchTerm) => {
+  fetch(`${import.meta.env.VITE_DB_DEPLOY}/?${encodeURIComponent(searchTerm)}`) // Modo producción
+    .then((response) => response.json())
+    .then((data) => setLibrosFiltrados(data))
+    .catch((error) => console.error('Error al buscar libros:', error));
 };
 
 export default function Navbar() {
@@ -96,15 +103,16 @@ export default function Navbar() {
           >
             <img src={logo} alt="Logo" />
           </IconButton>
-          <Typography variant="h6" component="div" sx={{ flexGrow: 1, textAlign: 'center' }}>
+          <Typography variant="h5" component="div" sx={{ flexGrow: 1, textAlign: 'left', fontStyle: 'italic', marginLeft: '20px' }}>
             Los mejores libros
           </Typography>
+          <SearchBar onSearchSubmit={onSearchSubmit} />
           <Typography variant="h7" component="div" sx={{ textAlign: 'right' }}>
             {localStorage.getItem("loggedIn") === "true" || isAuthenticated ? 'Hola ' + getUserData() : 'Hola invitado'}
           </Typography> 
           {localStorage.getItem("loggedIn") === "true" || isAuthenticated ?
-            <Button color='inherit' onClick={signOut}> Sign Out</Button> :
-            <Link to={'/login'}><Button color="inherit" >Sign In</Button></Link>
+            <Button color='inherit' onClick={signOut} sx={{ color: 'white' }}> Sign Out</Button> :
+            <Link to={'/login'}><Button color="inherit"sx={{ color: 'white '}} >Sign In</Button></Link>
           }
           <IconButton aria-label="cart" onClick={manejarAbrirModalCarrito}>
             <StyledBadge badgeContent={carrito.length} color="secondary">
