@@ -33,7 +33,7 @@ const Login = () => {
     e.preventDefault();
 
     if (isSignedUp) {
-      fetch('http://localhost:3000/login', {
+      fetch(`${import.meta.env.VITE_DB_DEPLOY}/login`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
