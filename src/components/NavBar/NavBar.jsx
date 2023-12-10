@@ -44,7 +44,7 @@ const modalStyle = {
   p: 4,
 };
 const onSearchSubmit = (searchTerm) => {
-  fetch(`${import.meta.env.VITE_DB_DEPLOY}/?${encodeURIComponent(searchTerm)}`) // Modo producción
+  fetch(`${import.meta.env.VITE_DB_DEPLOY}/?${encodeURIComponent(searchTerm)}`) 
     .then((response) => response.json())
     .then((data) => setLibrosFiltrados(data))
     .catch((error) => console.error('Error al buscar libros:', error));

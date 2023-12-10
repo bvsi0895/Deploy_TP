@@ -58,8 +58,8 @@ function App() {
 
  
   useEffect(() => {
-    aplicarFiltro();   // Aplica el filtro cada vez que cambia filtroActual
-  }, [filtroActual]);
+    aplicarFiltro();  
+    }, [filtroActual]);
 
   const [isContactModalOpen, setContactModalOpen] = useState(false);
 

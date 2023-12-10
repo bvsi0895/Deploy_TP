@@ -69,7 +69,7 @@ const Footer = () => {
               ¿Tienes preguntas? Por favor, no dudes en contactarnos.
             </Typography>
             <Button onClick={handleOpen} color="secondary" style={{ color: 'white', display: 'flex', alignItems: 'center'}}>
-              <MailOutlineIcon sx={{ fonrSize: 28, marginRiht: 4 }} /> Contacto
+              <MailOutlineIcon sx={{ fonrSize: 28, marginRiht: 4 }} />  Contacto
             </Button>
           </Grid>
         </Grid>

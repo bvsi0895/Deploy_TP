@@ -98,7 +98,7 @@ const Login = () => {
         <br></br>
         <label htmlFor="password">Password:</label>
         <input
-          type="password" // Change to 'password' type for password input
+          type="password" 
           id="password"
           name="password"
           value={userData.password}

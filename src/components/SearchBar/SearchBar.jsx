@@ -12,7 +12,7 @@ const Searchbar = ({ onSearchSubmit }) => {
     };
 
     const handleSubmit = (event) => {
-        event.preventDefault(); // Previene el comportamiento por defecto del formulario
+        event.preventDefault(); 
         onSearchSubmit(searchTerm.toLowerCase()); // Convierte el término de búsqueda a minúsculas antes de enviarlo
     };
 
