@@ -1,15 +1,27 @@
-import React from 'react'
-import { Link } from 'react-router-dom'
+import React from 'react';
+import { Link } from 'react-router-dom';
+import { Typography, Button, Container, Box } from '@mui/material';
 
 const RegistroExitoso = () => {
   return (
-    <div>
-        <h3> Su registro se ha realizado correctamente. Por favor vuelva a login e ingrese su usuario y contraseña.</h3>
-        <Link to={'/login'}><button>Volver a Login</button></Link>
-        
-    </div>
-    
-  )
-}
+    <Container maxWidth="sm">
+      <Box mt={4}>
+        <Typography variant="h5" align="center" gutterBottom>
+          Su registro se ha realizado correctamente.
+        </Typography>
+        <Typography variant="body1" align="center" paragraph>
+          Por favor, vuelva a login e ingrese su usuario y contraseña.
+        </Typography>
+        <Box display="flex" justifyContent="center">
+          <Link to="/login">
+            <Button variant="contained" color="primary">
+              Volver a Login
+            </Button>
+          </Link>
+        </Box>
+      </Box>
+    </Container>
+  );
+};
 
-export default RegistroExitoso
+export default RegistroExitoso;
