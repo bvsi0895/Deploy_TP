@@ -1,0 +1,90 @@
+/* .table {
+    border-collapse: collapse;
+    width: 100%;
+  }
+  
+  .header {
+    background-color: #f2f2f2;
+    padding: 12px;
+    text-align: left;
+  }
+  
+  .cell {
+    padding: 8px;
+    text-align: left;
+    border-bottom: 1px solid #ddd;
+  }
+  
+  .actions {
+    display: flex;
+    gap: 8px;
+  }
+  
+  /* Estilo para el botón "Editar" */
+  /* .editButton {
+    background-color: #4caf50;
+    color: white;
+    border: none;
+    padding: 8px 12px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 14px;
+    cursor: pointer;
+  }
+  
+  /* Estilo para el botón "Eliminar" */
+  /* .deleteButton {
+    background-color: #f44336;
+    color: white;
+    border: none;
+    padding: 8px 12px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 14px;
+    cursor: pointer;
+  }   */
+
+
+  .tableContainer {
+    overflow-x: auto;
+    margin-bottom: 20px;
+  }
+  
+  .table {
+    width: 100%;
+    border-collapse: collapse;
+  }
+  
+  .header {
+    background-color: #f2f2f2;
+  }
+  
+  .cell {
+    border: 1px solid #ddd;
+    padding: 8px;
+    text-align: left;
+  }
+  
+  .actions {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+  }
+  
+  @media (max-width: 600px) {
+    .table {
+      font-size: 14px; /* Ajusta el tamaño de fuente para dispositivos móviles */
+    }
+  
+    .actions {
+      flex-direction: column; /* Coloca los botones uno encima del otro en dispositivos móviles */
+      margin-top: 10px; /* Agrega espacio entre los botones */
+    }
+  }
+
+  .rightAlign {
+    text-align: right;
+  }
+  

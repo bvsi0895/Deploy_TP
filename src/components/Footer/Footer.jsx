@@ -1,5 +1,15 @@
 import React, { useState } from 'react';
-import { Modal, Box, Typography, Button, TextField, CircularProgress, Container, Grid } from '@mui/material';
+import {
+  Modal,
+  Box,
+  Typography,
+  Button,
+  TextField,
+  CircularProgress,
+  Container,
+  Grid,
+  Link,
+} from '@mui/material';
 import MailOutlineIcon from '@mui/icons-material/MailOutline';
 import SendIcon from '@mui/icons-material/Send';
 
@@ -21,18 +31,16 @@ const Footer = () => {
     setIsLoading(true);
 
     try {
-      const response = await fetch(`${import.meta.env.VITE_DB_DEPLOY}/enviar-frmulario`, {
+      const response = await fetch('https://backtp-production.up.railway.app/enviar-formulario', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(formData)
+        body: JSON.stringify(formData),
       });
-
       if (!response.ok) {
         throw new Error(`Error HTTP: ${response.status}`);
       }
-
-      const data = await response.json();
-
+      await response.json();
+      setRespuesta('Mensaje enviado con éxito.');
       setTimeout(() => {
         setOpen(false);
         setRespuesta('');
@@ -45,35 +53,62 @@ const Footer = () => {
   };
 
   return (
-    <Box component="footer" sx={{ bgcolor: '#2196F3',
-                                  color: 'primary.main', 
-                                  mt: 3, 
-                                  py: 3, 
-                                  flexGrow: 1, 
-                                  boxShadow: '0px 0px 10px 0px rgba(0,0,0,0.5)', 
-                                  width: '100%',
-                                  flexShrink: 0
-                                }}>
+    <Box
+      component="footer"
+      sx={{
+        bgcolor: '#2196F3',
+        color: 'primary.main',
+        mt: 3,
+        py: 3,
+        flexGrow: 1,
+        boxShadow: '0px 0px 10px 0px rgba(0, 0, 0, 0.5)',
+      }}
+    >
       <Container maxWidth="false">
         <Grid container spacing={3}>
           <Grid item xs={12} sm={6}>
-            <Typography variant="h6" color="white" gutterBottom>
-              Grupo 2 DWA Henry
+            <Typography variant="h6" color='#FFFFFF' gutterBottom>
+              Grupo 2 DWA - Henry
             </Typography>
-            <Typography variant="subtitle1" color="white">
-              Edward A. Pereira, Andrea Purrinos, Valentina Paglino, Jorge Conti
+            <Typography variant="subtitle1" color='#FFFFFF'>
+              Edward Adalid Pereira, Andrea Purrinos, Valentina Paglino, Jorge Conti
             </Typography>
           </Grid>
           <Grid item xs={12} sm={6}>
-            <Typography variant="subtitle1" color="white">
+            <Typography variant="subtitle1" color='#FFFFFF'>
               ¿Tienes preguntas? Por favor, no dudes en contactarnos.
             </Typography>
-            <Button onClick={handleOpen} color="secondary" style={{ color: 'white', display: 'flex', alignItems: 'center'}}>
-              <MailOutlineIcon sx={{ fonrSize: 28, marginRiht: 4 }} />  Contacto
+            <Button
+              onClick={handleOpen}
+              color="secondary"
+              style={{ color: '#FFFFFF', display: 'flex', alignItems: 'center' }}
+            >
+              <MailOutlineIcon sx={{ fontSize: 28, marginRight: 4 }} /> Contacto
             </Button>
+          </Grid>
+          <Grid item xs={12} sm={4}>
+            <div>
+              <Link href="#" color='#FFFFFF' variant="body2" style={{ marginRight: '10px' }}>
+                Acerca de Nosotros
+              </Link>
+              <Link href="#" color='#FFFFFF' variant="body2" style={{ marginRight: '10px' }}>
+                Política de Privacidad
+              </Link>
+              <Link href="#" color='#FFFFFF' variant="body2">
+                Términos de Servicio
+              </Link>
+            </div>
           </Grid>
         </Grid>
       </Container>
+
+      <Typography variant="body2" color="text.secondary" align="center" sx={{ mt: 3 }}>
+        {'Derechos Reservados © '}
+        BookFinder
+        {' '}
+        {new Date().getFullYear()}
+        {'.'}
+      </Typography>
 
       <Modal
         open={open}
@@ -138,7 +173,6 @@ const Footer = () => {
   );
 };
 
-// Estilos para el modal
 const modalStyle = {
   position: 'absolute',
   top: '50%',
@@ -148,7 +182,7 @@ const modalStyle = {
   bgcolor: 'background.paper',
   boxShadow: 24,
   p: 4,
-  outline: 'none'
+  outline: 'none',
 };
 
 export default Footer;

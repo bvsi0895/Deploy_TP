@@ -1,0 +1,103 @@
+.error{
+    color: red;
+}
+
+.formGroup {
+    margin-bottom: 15px;
+  }
+  
+  .input {
+    width: 100%;
+    padding: 8px;
+    border-radius: 4px;
+    border: 1px solid #ccc;
+    box-sizing: border-box;
+  }
+  
+  .checkbox {
+    margin: 8px 0;
+  }
+
+  .imageContainer {
+    display: flex;
+    align-items: center;
+    margin-top: 16px;
+    
+  }
+  
+  .image {
+    width: 100px; /* Ajusta el ancho según tus necesidades */
+    height: auto;
+    margin-right: 16px;
+  }
+
+  .fileInput {
+    margin-top: 16px;
+  }
+  
+  .updateButtonContainer {
+    margin-top: 16px;
+    text-align: center;
+  }
+
+  .inputContainer {
+ 
+    flex-direction: column;
+    margin-bottom: 4px; 
+    text-align:left;
+    margin-top: 30px;
+  }
+  
+  .label {
+    font-weight: bold;
+    margin-bottom: 1px;
+  }
+
+
+/* Agrega estilos al botón de carga de imágenes */
+.fileInput {
+  display: none; /* Oculta el input de tipo file */
+}
+
+.uploadButton {
+  background-color: #4caf50; /* Color de fondo */
+  color: white; /* Color del texto */
+  padding: 10px 15px; /* Espaciado interno */
+  border: none; /* Borde ninguno */
+  border-radius: 4px; /* Bordes redondeados */
+  cursor: pointer; /* Cambia el cursor al pasar el ratón */
+}
+
+.uploadButton:hover {
+  background-color: #45a049; /* Cambia el color de fondo al pasar el ratón */
+}
+
+/* EditProduct.module.css */
+
+.fileInputContainer {
+  position: relative;
+  overflow: hidden;
+  display: inline-block;
+}
+
+.fileInput {
+  font-size: 100px;
+  position: absolute;
+  left: 0;
+  top: 0;
+  opacity: 0;
+}
+
+.chooseFileButton {
+  background-color: #4caf50;
+  color: white;
+  padding: 10px 15px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.chooseFileButton:hover {
+  background-color: #45a049;
+}
+
