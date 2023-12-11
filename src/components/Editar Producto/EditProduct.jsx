@@ -20,7 +20,7 @@ const EditProduct = () => {
   useEffect(() => {
     const fetchProductDetails = async () => {
       try {
-        const response = await fetch(`http://localhost:3000/producto-y-categoria-por-ID/${id}`);
+        const response = await fetch(`https://backtp-production.up.railway.app/producto-y-categoria-por-ID/${id}`);
         if (!response.ok) {
           throw new Error('Error al obtener detalles del producto.');
         }
